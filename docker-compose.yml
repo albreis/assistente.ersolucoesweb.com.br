@@ -9,6 +9,8 @@ services:
     build: .
     networks:
       - www
+    env_file:
+      - .env
     volumes:
       - /var/www/html # Mapeia o diretório do seu código PHP para o diretório do Apache
     environment:
