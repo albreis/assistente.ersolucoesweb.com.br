@@ -20,7 +20,6 @@ function enviarRequisicaoPOST($url, $data)
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
     $response = curl_exec($ch);
     curl_close($ch);
-    var_dump($response, curl_error($ch));
     return $response;
 }
 
