@@ -11,8 +11,6 @@ services:
       - www
     env_file:
       - .env
-    volumes:
-      - /var/www/html # Mapeia o diretório do seu código PHP para o diretório do Apache
     environment:
       - APACHE_DOCUMENT_ROOT=/var/www/html # Define o diretório raiz do Apache para o seu código
     restart: always
