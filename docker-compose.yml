@@ -1,0 +1,30 @@
+version: '3'
+networks:
+  www:
+    external: true
+services:
+  assistente:
+    image: albreis/assistente
+    container_name: assistente
+    build: .
+    networks:
+      - www
+    volumes:
+      - /var/www/html # Mapeia o diretório do seu código PHP para o diretório do Apache
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html # Define o diretório raiz do Apache para o seu código
+    restart: always
+    deploy:
+      mode: replicated
+      replicas: 1
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.https-redirect.redirectscheme.permanent=true"
+      - "traefik.http.routers.assistente-http.rule=Host(`assistente.ersolucoesweb.com.br`)"
+      - "traefik.http.routers.assistente-http.entrypoints=http"
+      - "traefik.http.routers.assistente-https.rule=Host(`assistente.ersolucoesweb.com.br`)"
+      - "traefik.http.routers.assistente-https.entrypoints=https"
+      - "traefik.http.routers.assistente-https.tls=true"
+      - "traefik.http.routers.assistente-https.tls.certresolver=letsencrypt"
+      - "traefik.http.services.assistente-https.loadbalancer.server.port=80"
